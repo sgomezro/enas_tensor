@@ -1,0 +1,6 @@
+# CartPole swing-up (as used in the WANN paper), vectorized in torch.
+# Physics constants live in source/environments/swingup.py (SwingUp).
+
+name: swingup
+episodes: 4                         # episodes per shared weight
+steps: 1000                         # env steps per episode

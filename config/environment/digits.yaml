@@ -1,0 +1,4 @@
+# sklearn's bundled 8x8 digits (10 classes, 64 inputs). Requires scikit-learn.
+
+name: digits
+n_samples: null                     # unused: the full dataset is always loaded

@@ -1,0 +1,10 @@
+# @package _global_
+#
+# Digits with Lamarckian inner-loop learning.
+
+defaults:
+  - override /environment: digits
+
+training:
+  learning: lamarckian
+log_filename: logs/digits_lamarckian.log

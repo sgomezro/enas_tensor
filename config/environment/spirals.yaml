@@ -1,0 +1,4 @@
+# Two interleaved spirals (binary classification, 2 inputs).
+
+name: spirals
+n_samples: 2000                     # total samples (80/20 train/test split)

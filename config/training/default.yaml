@@ -1,0 +1,12 @@
+# Gradient-based weight training (topology evolved, per-edge weights learned by backprop).
+
+# Inner loop during evolution (supervised tasks only)
+learning: none                      # none | baldwinian | lamarckian
+inner_steps: 10                     # Adam steps per generation
+inner_lr: 0.05
+batch: 128                          # Training minibatch size
+
+# Post-search fine-tuning of the champion
+finetune_steps: null                # null = 500 for supervised tasks, 0 for swing-up
+finetune_lr: 0.02
+finetune_horizon: 300               # BPTT horizon for swing-up fine-tuning

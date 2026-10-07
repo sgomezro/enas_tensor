@@ -1,0 +1,11 @@
+# @package _global_
+#
+# Quick CPU demo on swing-up.
+# Defaults are loaded first, then these values are applied on top.
+
+environment:
+  steps: 500
+enas:
+  pop_size: 128
+  max_gen: 30
+log_filename: logs/swingup_quick.log

@@ -1,0 +1,13 @@
+# Default network (genome) parameters.
+# null = task-dependent default, resolved at runtime:
+#   swing-up:   max_nodes 64,                    p_init_conn 0.25
+#   supervised: max_nodes inputs+outputs+48,     p_init_conn min(0.25, 20/(n_in*C))
+
+max_nodes: null                     # Padded node slots per genome
+p_init_conn: null                   # Initial input->output connection probability
+
+# Shared weight values each genome is evaluated with
+shared_weights: [-2.0, -1.0, -0.5, 0.5, 1.0, 2.0]
+
+# Activation set (fixed, see source/wann_engine/_activations.py):
+#   0 linear, 1 step, 2 sin, 3 gauss, 4 tanh, 5 sigmoid, 6 inverse, 7 abs, 8 relu, 9 cos

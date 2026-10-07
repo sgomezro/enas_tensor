@@ -1,0 +1,22 @@
+# Sweep definition: seed sweep for spirals
+# Generates one experiment per seed value.
+#
+# Usage:
+#   python config/generate_experiments/generator.py -e config/generate_experiments/sweep_seeds
+#   python config/generate_experiments/generator.py -e config/generate_experiments/sweep_seeds --dry-run
+
+sweep_name: sweep_seeds
+
+# Config-group selections (e.g. environment: spirals) applied to ALL experiments
+groups:
+  environment: spirals
+
+# Fixed parameters shared by ALL experiments in this sweep
+fixed:
+  enas:
+    pop_size: 256
+    max_gen: 50
+
+# Parameters to sweep (Cartesian product of all lists)
+sweep:
+  seed: [0, 1, 2]

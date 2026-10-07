@@ -1,0 +1,10 @@
+# @package _global_
+#
+# Spirals with Baldwinian inner-loop learning.
+
+defaults:
+  - override /environment: spirals
+
+training:
+  learning: baldwinian
+log_filename: logs/spirals_baldwinian.log
