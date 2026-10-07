@@ -1,0 +1,32 @@
+# Main Hydra configuration
+# Loads defaults first, then experiment overrides are applied on top.
+#
+# Usage:
+#   python wann_enas.py                                 # uses all defaults (swing-up)
+#   python wann_enas.py experiments=swingup_quick       # loads experiment overrides
+#   python wann_enas.py environment=spirals             # switch task (config group)
+#   python wann_enas.py enas.pop_size=128               # override a single parameter
+
+defaults:
+  - environment: swingup
+  - enas: default
+  - model: default
+  - training: default
+  - _self_
+  - optional experiments: null
+
+# Global settings
+mode: evolve                        # evolve | selftest | benchmark
+seed: 0
+device: null                        # null = cuda if available, else cpu (selftest: cpu)
+compile: false                      # torch.compile the swing-up rollout step
+log_every: 1                        # log every N generations
+log_filename: logs/wann_run.log
+out_dir: experiments/${environment.name}_seed${seed}   # champion.pt + parameters_used.yaml
+
+# Prevent Hydra from changing the working directory
+hydra:
+  run:
+    dir: .
+  job:
+    chdir: false

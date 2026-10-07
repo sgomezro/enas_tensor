@@ -1,0 +1,17 @@
+# Default evolutionary search parameters (WANN-style ranking + tournament).
+
+# Population and generations
+pop_size: 512                       # Population size
+max_gen: 200                        # Number of generations
+
+# Selection
+elite: 20                           # Individuals copied unchanged to the next generation
+tournament_size: 8
+p_complexity: 0.2                   # Prob. of ranking on (mean, -connections) instead of (mean, max)
+
+# Mutation (exactly one per child; remainder = change activation)
+prob_add_node: 0.25                 # Split an existing edge with a new hidden node
+prob_add_conn: 0.25                 # Add a connection from lower to higher rank
+
+# Supervised tasks
+eval_batch: 512                     # Fitness samples per generation

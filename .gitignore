@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Run outputs (project root only; config/experiments/ stays tracked)
+/logs/
+/experiments/
+*.pt

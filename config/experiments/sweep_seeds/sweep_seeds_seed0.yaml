@@ -1,0 +1,17 @@
+# @package _global_
+#
+# Auto-generated experiment configuration
+# Defaults are loaded first, then these values are applied on top.
+
+defaults:
+  - override /environment: spirals
+
+# ENAS overrides
+enas:
+  pop_size: 256
+  max_gen: 50
+
+# Global overrides
+seed: 0
+log_filename: logs/sweep_seeds/sweep_seeds_seed0.log
+out_dir: experiments/sweep_seeds/sweep_seeds_seed0

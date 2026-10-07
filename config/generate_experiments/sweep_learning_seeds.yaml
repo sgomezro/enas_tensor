@@ -1,0 +1,16 @@
+# Sweep definition: learning mode x seed on spirals
+# Generates 3 learning modes x 2 seeds = 6 experiments.
+
+sweep_name: sweep_learning_seeds
+
+groups:
+  environment: spirals
+
+fixed:
+  enas:
+    pop_size: 256
+    max_gen: 50
+
+sweep:
+  training.learning: [none, baldwinian, lamarckian]
+  seed: [0, 1]
