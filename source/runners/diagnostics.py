@@ -4,7 +4,7 @@ import logging
 import torch
 from omegaconf import DictConfig
 
-from source.environments import SwingUp, evaluate
+from source.environments import SwingUp, evaluate, rollout_step
 from source.helpers.helpers import LOGGER_NAME
 from source.wann_engine import (SHARED_WEIGHTS, compile_population, init_population,
                                 logits_edges, mutate, reference_forward, wann_forward)
@@ -76,6 +76,7 @@ def benchmark(cfg: DictConfig):
     """Rollout throughput (network + env steps per second) on each available device."""
     env, enas = cfg.environment, cfg.enas
     devices = ["cpu"] + (["cuda"] if torch.cuda.is_available() else [])
+    step_fn = torch.compile(rollout_step) if cfg.compile else rollout_step
     for dev in devices:
         gen = torch.Generator(device=dev).manual_seed(0)
         pop = init_population(enas.pop_size, 1 + SwingUp.n_obs, SwingUp.n_act,
@@ -83,14 +84,14 @@ def benchmark(cfg: DictConfig):
         for _ in range(20):
             mutate(pop, gen)
         weights = torch.tensor(SHARED_WEIGHTS, device=dev)
-        evaluate(pop, weights, env.episodes, 20, 0)             # warm-up
+        evaluate(pop, weights, env.episodes, 20, 0, step_fn=step_fn)  # warm-up (+compile)
         if dev == "cuda":
             torch.cuda.synchronize()
         t0 = time.perf_counter()
-        evaluate(pop, weights, env.episodes, env.steps, 0)
+        evaluate(pop, weights, env.episodes, env.steps, 0, step_fn=step_fn)
         if dev == "cuda":
             torch.cuda.synchronize()
         dt = time.perf_counter() - t0
         n = enas.pop_size * len(SHARED_WEIGHTS) * env.episodes * env.steps
-        log.info(f"[{dev}] {n / dt:,.0f} network+env steps/s "
+        log.info(f"[{dev}{' compiled' if cfg.compile else ''}] {n / dt:,.0f} network+env steps/s "
                  f"({dt:.2f}s for pop={enas.pop_size}, W=6, B={env.episodes}, T={env.steps})")

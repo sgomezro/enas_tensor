@@ -35,10 +35,10 @@ def evolve(cfg: DictConfig):
     if dev.type == "cuda":
         torch.backends.cuda.matmul.allow_tf32 = True
     gen = torch.Generator(device=dev).manual_seed(cfg.seed)
-    step_fn = rollout_step
-    if cfg.compile:
-        step_fn = torch.compile(rollout_step,
-                                mode="reduce-overhead" if dev.type == "cuda" else "default")
+    # mode="reduce-overhead" (CUDA graphs) breaks here: each step's outputs are fed back
+    # as the next step's inputs and get overwritten by the graph replay. Default mode
+    # (kernel fusion only) is as fast in practice.
+    step_fn = torch.compile(rollout_step) if cfg.compile else rollout_step
     pop = init_population(enas.pop_size, 1 + SwingUp.n_obs, SwingUp.n_act,
                           model.max_nodes, model.p_init_conn, dev, gen)
     weights = torch.tensor(list(model.shared_weights), device=dev)
